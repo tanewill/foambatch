@@ -10,26 +10,27 @@ echo $3
 echo $4
 
 mnt=$4
-#mkdir share
-source /opt/intel/impi/5.1.3.181/bin64/mpivars.sh
-export MPI_ROOT=$I_MPI_ROOT
-export FOAM_INST_DIR=$mnt/share/OpenFOAM
-#export FOAM_INST_DIR=share/OpenFOAM
-source $mnt/share/OpenFOAM/OpenFOAM-2.3.x/etc/bashrc
-#source share/OpenFOAM/OpenFOAM-2.3.x/etc/bashrc
-export I_MPI_FABRICS=shm:dapl
-export I_MPI_DAPL_PROVIDER=ofa-v2-ib0
-export I_MPI_DYNAMIC_CONNECTION=0
-export LD_LIBRARY_PATH=$mnt/share/OpenFOAM/intel64_lin:$LD_LIBRARY_PATH
-#export LD_LIBRARY_PATH=share/OpenFOAM/intel64_lin:$LD_LIBRARY_PATH
-# total number of processes is number of nodes multipled by number of processes per node
-(( numProc = $1 * $2 ))
+mkdir openFOAM
+cd OpenFOAM
 wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_HPC.tgz
 wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_HPC_libs.tgz
 tar zxf OpenFOAM_CentOS7_HPC.tgz
-
 tar zxf OpenFOAM_CentOS7_HPC_libs.tgz
-cd share/OpenFOAM/
+cd OpenFOAM/
+#source /opt/intel/impi/5.1.3.181/bin64/mpivars.sh
+#export MPI_ROOT=$I_MPI_ROOT
+#export FOAM_INST_DIR=$mnt/share/OpenFOAM
+#export FOAM_INST_DIR=share/OpenFOAM
+#source $mnt/share/OpenFOAM/OpenFOAM-2.3.x/etc/bashrc
+source OpenFOAM-2.3.x/etc/bashrc
+#export I_MPI_FABRICS=shm:dapl
+#export I_MPI_DAPL_PROVIDER=ofa-v2-ib0
+#export I_MPI_DYNAMIC_CONNECTION=0
+#export LD_LIBRARY_PATH=$mnt/share/OpenFOAM/intel64_lin:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH=share/OpenFOAM/intel64_lin:$LD_LIBRARY_PATH
+# total number of processes is number of nodes multipled by number of processes per node
+(( numProc = $1 * $2 ))
+
 wget http://aainternalstore.blob.core.windows.net/batchstorage/airFoil.tgz
 tar xzf airFoil.tgz
 cd airFoil
