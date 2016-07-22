@@ -1,15 +1,5 @@
 #!/usr/bin/env bash
-#Command script to run OpenFoam application on multiple machines as MPI task on Azure Batch.
-#Usage: application [nodes] [cores_per_node] [CFD iterations]
-
 #prepare environment variables for intel mpi and openfoam
-pwd
-echo $1
-echo $2
-echo $3
-echo $4
-
-mnt=$4
 mkdir OpenFOAM
 cd OpenFOAM
 wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_HPC.tgz
@@ -19,18 +9,12 @@ tar zxf OpenFOAM_CentOS7_HPC_libs.tgz
 
 source /opt/intel/impi/5.1.3.181/bin64/mpivars.sh
 export MPI_ROOT=$I_MPI_ROOT
-#export FOAM_INST_DIR=$mnt/share/OpenFOAM
 export FOAM_INST_DIR=`pwd`
-#source $mnt/share/OpenFOAM/OpenFOAM-2.3.x/etc/bashrc
 source OpenFOAM-2.3.x/etc/bashrc
-env|sort
 export I_MPI_FABRICS=shm:dapl
 export I_MPI_DAPL_PROVIDER=ofa-v2-ib0
 export I_MPI_DYNAMIC_CONNECTION=0
-#export LD_LIBRARY_PATH=$mnt/share/OpenFOAM/intel64_lin:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=$FOAM_INST_DIR/intel64_lin:$LD_LIBRARY_PATH
-# total number of processes is number of nodes multipled by number of processes per node
-#(( numProc = $1 * $2 ))
 
 wget http://aainternalstore.blob.core.windows.net/batchstorage/airFoil.tgz
 tar xzf airFoil.tgz
@@ -38,35 +22,6 @@ cd airFoil
 simpleFoam
 foamToVTK -latestTime
 mv VTK/*.vtk ../../../
-tar -czf vtk.tgz VTK/
-mv vtk.tgz ../../../
 cd ../../
 rm -rf OpenFOAM
 
-#prepare decomposition mesh as per total number of nodes, processes and number of iterations for openfoam
-#cd $mnt/share/OpenFOAM/motorBike
-#cd $mnt/share/OpenFOAM/motorBike
-#echo $numProc
-#sed -i.bak "s/SUB1/$numProc/g" system/decomposeParDict
-#sed -i.bak2 "s/SUB2/$1/g" system/decomposeParDict
-#sed -i.bak "s/SUB1/$3/g" system/controlDict
-#decomposePar
-#ls -d processor* | xargs -I {} rm -rf ./{}/0
-#ls -d processor* | xargs -I {} cp -r 0.org ./{}/0
-
-# Run mpi application with appropriate parameters
-#mpirun -np $numProc -ppn $2 --host $5 -wdir $mnt/share/OpenFOAM/motorBike simpleFoam -parallel
-
-# process the output
-#reconstructPar -latestTime
-#foamToVTK -latestTime
-
-# prepare the output and compress it as result
-#cp $4/genimages.py VTK/
-#cp $4/stdout.txt VTK/
-#cp $4/stderr.txt VTK/
-#cd VTK
-#mv motorBike*/*.vtk .
-#mmv "*:*.vtk" "#1#2.vtk"
-#mmv "*%*.vtk" "#1#2.vtk"
-#tar -czf $4/VTK.tgz ../VTK/
