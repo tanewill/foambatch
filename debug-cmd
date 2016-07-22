@@ -24,11 +24,11 @@ export FOAM_INST_DIR=`pwd`
 #source $mnt/share/OpenFOAM/OpenFOAM-2.3.x/etc/bashrc
 source OpenFOAM-2.3.x/etc/bashrc
 env|sort
-#export I_MPI_FABRICS=shm:dapl
-#export I_MPI_DAPL_PROVIDER=ofa-v2-ib0
-#export I_MPI_DYNAMIC_CONNECTION=0
+export I_MPI_FABRICS=shm:dapl
+export I_MPI_DAPL_PROVIDER=ofa-v2-ib0
+export I_MPI_DYNAMIC_CONNECTION=0
 #export LD_LIBRARY_PATH=$mnt/share/OpenFOAM/intel64_lin:$LD_LIBRARY_PATH
-#export LD_LIBRARY_PATH=share/OpenFOAM/intel64_lin:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$FOAM_INST_DIR/intel64_lin:$LD_LIBRARY_PATH
 # total number of processes is number of nodes multipled by number of processes per node
 #(( numProc = $1 * $2 ))
 
