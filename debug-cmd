@@ -36,6 +36,11 @@ wget http://aainternalstore.blob.core.windows.net/batchstorage/airFoil.tgz
 tar xzf airFoil.tgz
 cd airFoil
 simpleFoam
+foamToVTK -latestTime
+tar -czf vtk.tgz VTK/
+mv vtk.tgz ../../../
+cd ../../../
+rm -rf OpenFOAM
 
 #prepare decomposition mesh as per total number of nodes, processes and number of iterations for openfoam
 #cd $mnt/share/OpenFOAM/motorBike
