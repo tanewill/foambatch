@@ -1,39 +1,43 @@
 #!/usr/bin/env bash
-#Command script to setup NFS share on multiple nodes (with one node being server and remaining nodes as client) as Azure Batch multiinstance task
-master_addr_port=(${AZ_BATCH_MASTER_NODE//:/ })
-master_addr=${master_addr_port[0]}
-mnt=$AZ_BATCH_TASK_SHARED_DIR
-if $AZ_BATCH_IS_CURRENT_NODE_MASTER; then
-    # is head node, will be nfs server, will download and prepare all the input data in nfs share dir
-    mkdir $mnt/share
-    chmod 777 -R $mnt/share
-    echo "$mnt/share      10.0.0.0/24(rw,sync,no_root_squash,no_all_squash)" > /etc/exports
-    systemctl restart nfs-server
-    cd $mnt/share
-    mkdir -p OpenFOAM
-    cd OpenFOAM
-    # Follow http://www.openfoam.com/code/build-guide.php to build input files for OpenFoam
-    wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_HPC.tgz
-    wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_HPC_libs.tgz
-    wget http://aainternalstore.blob.core.windows.net/batchstorage/motorBike_3M.tgz
-    tar zxf OpenFOAM_CentOS7_HPC.tgz
-    tar zxf OpenFOAM_CentOS7_HPC_libs.tgz
-    tar zxf motorBike_3M.tgz
+#Command script to run OpenFoam application on multiple machines as MPI task on Azure Batch.
+#Usage: application [nodes] [cores_per_node] [CFD iterations]
 
-else
-    # all other nodes are nfs clients, will connect with nfs server on nfs share dir
-    mkdir -p $mnt/share
-    echo "$master_addr:$mnt/share    $mnt/share   nfs defaults 0 0::" >> /etc/fstab
-    while :
-    do
-        echo "Looping"
-        mount -a
-        mountpoint -q $mnt/share
-        if [ $? -eq 0 ]; then
-            break
-        else
-            sleep 10
-        fi
-    done
-fi
-exit
+#prepare environment variables for intel mpi and openfoam
+mnt=$4
+source /opt/intel/impi/5.1.3.181/bin64/mpivars.sh
+export MPI_ROOT=$I_MPI_ROOT
+export FOAM_INST_DIR=$mnt/share/OpenFOAM
+source $mnt/share/OpenFOAM/OpenFOAM-2.3.x/etc/bashrc
+export I_MPI_FABRICS=shm:dapl
+export I_MPI_DAPL_PROVIDER=ofa-v2-ib0
+export I_MPI_DYNAMIC_CONNECTION=0
+export LD_LIBRARY_PATH=$mnt/share/OpenFOAM/intel64_lin:$LD_LIBRARY_PATH
+# total number of processes is number of nodes multipled by number of processes per node
+(( numProc = $1 * $2 ))
+
+#prepare decomposition mesh as per total number of nodes, processes and number of iterations for openfoam
+cd $mnt/share/OpenFOAM/motorBike
+echo $numProc
+sed -i.bak "s/SUB1/$numProc/g" system/decomposeParDict
+sed -i.bak2 "s/SUB2/$1/g" system/decomposeParDict
+sed -i.bak "s/SUB1/$3/g" system/controlDict
+decomposePar
+ls -d processor* | xargs -I {} rm -rf ./{}/0
+ls -d processor* | xargs -I {} cp -r 0.org ./{}/0
+
+# Run mpi application with appropriate parameters
+mpirun -np $numProc -ppn $2 --host $5 -wdir $mnt/share/OpenFOAM/motorBike simpleFoam -parallel
+
+# process the output
+reconstructPar -latestTime
+foamToVTK -latestTime
+
+# prepare the output and compress it as result
+cp $4/genimages.py VTK/
+cp $4/stdout.txt VTK/
+cp $4/stderr.txt VTK/
+cd VTK
+mv motorBike*/*.vtk .
+mmv "*:*.vtk" "#1#2.vtk"
+mmv "*%*.vtk" "#1#2.vtk"
+tar -czf $4/VTK.tgz ../VTK/
