@@ -16,7 +16,7 @@ wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_
 wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_HPC_libs.tgz
 tar zxf OpenFOAM_CentOS7_HPC.tgz
 tar zxf OpenFOAM_CentOS7_HPC_libs.tgz
-cd OpenFOAM/
+
 source /opt/intel/impi/5.1.3.181/bin64/mpivars.sh
 export MPI_ROOT=$I_MPI_ROOT
 #export FOAM_INST_DIR=$mnt/share/OpenFOAM
@@ -30,7 +30,7 @@ env|sort
 #export LD_LIBRARY_PATH=$mnt/share/OpenFOAM/intel64_lin:$LD_LIBRARY_PATH
 #export LD_LIBRARY_PATH=share/OpenFOAM/intel64_lin:$LD_LIBRARY_PATH
 # total number of processes is number of nodes multipled by number of processes per node
-(( numProc = $1 * $2 ))
+#(( numProc = $1 * $2 ))
 
 wget http://aainternalstore.blob.core.windows.net/batchstorage/airFoil.tgz
 tar xzf airFoil.tgz
