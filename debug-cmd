@@ -37,9 +37,10 @@ tar xzf airFoil.tgz
 cd airFoil
 simpleFoam
 foamToVTK -latestTime
+mv VTK/*.vtk ../../../
 tar -czf vtk.tgz VTK/
 mv vtk.tgz ../../../
-cd ../../../
+cd ../../
 rm -rf OpenFOAM
 
 #prepare decomposition mesh as per total number of nodes, processes and number of iterations for openfoam
