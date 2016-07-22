@@ -10,7 +10,7 @@ echo $3
 echo $4
 
 mnt=$4
-mkdir openFOAM
+mkdir OpenFOAM
 cd OpenFOAM
 wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_HPC.tgz
 wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_HPC_libs.tgz
@@ -20,7 +20,7 @@ cd OpenFOAM/
 #source /opt/intel/impi/5.1.3.181/bin64/mpivars.sh
 #export MPI_ROOT=$I_MPI_ROOT
 #export FOAM_INST_DIR=$mnt/share/OpenFOAM
-#export FOAM_INST_DIR=share/OpenFOAM
+export FOAM_INST_DIR=`pwd`
 #source $mnt/share/OpenFOAM/OpenFOAM-2.3.x/etc/bashrc
 source OpenFOAM-2.3.x/etc/bashrc
 #export I_MPI_FABRICS=shm:dapl
