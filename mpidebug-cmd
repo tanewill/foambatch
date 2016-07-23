@@ -16,5 +16,5 @@ wget https://raw.githubusercontent.com/tanewill/foambatch/master/foamModelFiles_
 source foamModelFiles_runme.sh $5 > $mnt/runlog.txt
 
 
-mv TOKEEP/ $mnt/
-#rm -rf $mnt/share/OpenFOAM
+mv $mnt/share/OpenFOAM/TOKEEP/ $mnt/
+rm -rf $mnt/share/OpenFOAM
