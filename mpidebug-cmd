@@ -12,7 +12,9 @@ export I_MPI_DYNAMIC_CONNECTION=0
 export LD_LIBRARY_PATH=$FOAM_INST_DIR/intel64_lin:$LD_LIBRARY_PATH
 
 cd $mnt/share/OpenFOAM/airFoil
-simpleFoam
+decomposePar
+#simpleFoam
+mpirun -np 16 -ppn 8 --host $5 simpleFoam -parallel > $mnt/runlog.txt
 foamToVTK -latestTime
 mv VTK/*.vtk $mnt/
-rm -rf $mnt/share/OpenFOAM
+#rm -rf $mnt/share/OpenFOAM
