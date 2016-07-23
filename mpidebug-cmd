@@ -26,6 +26,6 @@ echo ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 simpleFoam
 foamToVTK -latestTime
-#mv VTK/*.vtk ../../../
-#cd ../../../
-#rm -rf OpenFOAM
+mv VTK/*.vtk ../../../
+cd ../../../
+rm -rf OpenFOAM
