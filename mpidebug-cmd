@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 #prepare environment variables for intel mpi and openfoam
-mkdir OpenFOAM
+cd $mnt/share
+mkdir -p OpenFOAM
 cd OpenFOAM
+pwd
+ll $mnt/share
+
 wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_HPC.tgz
 wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_HPC_libs.tgz
 tar zxf OpenFOAM_CentOS7_HPC.tgz
