@@ -14,6 +14,6 @@ export LD_LIBRARY_PATH=$FOAM_INST_DIR/intel64_lin:$LD_LIBRARY_PATH
 cd $mnt/share/OpenFOAM/airFoil
 simpleFoam
 foamToVTK -latestTime
-mv VTK/*.vtk ../../../
-cd ../../
-rm -rf OpenFOAM
+#mv VTK/*.vtk ../../../
+#cd ../../../
+#rm -rf OpenFOAM
