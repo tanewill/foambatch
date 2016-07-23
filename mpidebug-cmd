@@ -12,6 +12,18 @@ export I_MPI_DYNAMIC_CONNECTION=0
 export LD_LIBRARY_PATH=$FOAM_INST_DIR/intel64_lin:$LD_LIBRARY_PATH
 
 cd $mnt/share/OpenFOAM/airFoil
+
+echo ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+echo ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+echo ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+whoami
+pwd
+ll
+ll $mnt/share/OpenFOAM/airFoil
+echo ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+echo ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+echo ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 simpleFoam
 foamToVTK -latestTime
 #mv VTK/*.vtk ../../../
