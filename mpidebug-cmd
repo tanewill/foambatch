@@ -12,7 +12,8 @@ export I_MPI_DYNAMIC_CONNECTION=0
 export LD_LIBRARY_PATH=$FOAM_INST_DIR/intel64_lin:$LD_LIBRARY_PATH
 
 cd $mnt/share/OpenFOAM/foamModelFiles
-wget $1 -O runMe.sh
+wget $1 -O $mnt/share/OpenFOAM/foamModelFiles/runMe.sh
+pwd
 source runMe.sh $3 $mnt > $mnt/runlog.txt
 
 
