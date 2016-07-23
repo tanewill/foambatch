@@ -23,12 +23,12 @@ if $AZ_BATCH_IS_CURRENT_NODE_MASTER; then
     mkdir $mnt/share/OpenFOAM
     mkdir $mnt/share/OpenFOAM/TOKEEP
     cd $mnt/share/OpenFOAM
-    wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_HPC.tgz
-    wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_HPC_libs.tgz
+    wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_HPC.tgz -nv 
+    wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_HPC_libs.tgz -nv 
     tar zxf OpenFOAM_CentOS7_HPC.tgz
     tar zxf OpenFOAM_CentOS7_HPC_libs.tgz
     pwd
-    wget $1 -O $mnt/share/OpenFOAM/foamModelFiles.tgz
+    wget $1 -O $mnt/share/OpenFOAM/foamModelFiles.tgz -nv
     pwd
     tar xzf $mnt/share/OpenFOAM/foamModelFiles.tgz
     
