@@ -10,6 +10,9 @@ echo $AZ_BATCH_IS_CURRENT_NODE_MASTER
 echo $AZ_BATCH_TASK_SHARED_DIR 
 echo $AZ_BATCH_HOST_LIST
 
+wget https://raw.githubusercontent.com/tanewill/foambatch/master/mpidebug-cmd
+mv mpidebug-cmd application-cmd
+
 if $AZ_BATCH_IS_CURRENT_NODE_MASTER; then
     # is head node, will be nfs server, will download and prepare all the input data in nfs share dir
     mkdir $mnt/share
