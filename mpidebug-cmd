@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 #prepare environment variables for intel mpi and openfoam
+mnt=$4
 cd $mnt/share
 mkdir -p OpenFOAM
 cd OpenFOAM
