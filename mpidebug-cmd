@@ -1,29 +1,17 @@
 #!/usr/bin/env bash
 #prepare environment variables for intel mpi and openfoam
 mnt=$4
-cd $mnt/share
-mkdir -p OpenFOAM
-cd OpenFOAM
-pwd
-ll $mnt/share
-
-wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_HPC.tgz
-wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_HPC_libs.tgz
-tar zxf OpenFOAM_CentOS7_HPC.tgz
-tar zxf OpenFOAM_CentOS7_HPC_libs.tgz
 
 source /opt/intel/impi/5.1.3.181/bin64/mpivars.sh
 export MPI_ROOT=$I_MPI_ROOT
-export FOAM_INST_DIR=`pwd`
-source OpenFOAM-2.3.x/etc/bashrc
+export FOAM_INST_DIR=$mnt/share/OpenFOAM
+source $FOAM_INST_DIR/OpenFOAM-2.3.x/etc/bashrc
 export I_MPI_FABRICS=shm:dapl
 export I_MPI_DAPL_PROVIDER=ofa-v2-ib0
 export I_MPI_DYNAMIC_CONNECTION=0
 export LD_LIBRARY_PATH=$FOAM_INST_DIR/intel64_lin:$LD_LIBRARY_PATH
 
-wget http://aainternalstore.blob.core.windows.net/batchstorage/airFoil.tgz
-tar xzf airFoil.tgz
-cd airFoil
+cd $mnt/share/OpenFOAM/airFoil
 simpleFoam
 foamToVTK -latestTime
 mv VTK/*.vtk ../../../
