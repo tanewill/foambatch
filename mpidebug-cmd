@@ -17,4 +17,4 @@ source runMe.sh $3 > $mnt/runlog.txt
 
 
 mv $mnt/share/OpenFOAM/TOKEEP/ $mnt/
-rm -rf $mnt/share/OpenFOAM
+#rm -rf $mnt/share/OpenFOAM
