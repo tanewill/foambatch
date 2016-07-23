@@ -27,9 +27,10 @@ if $AZ_BATCH_IS_CURRENT_NODE_MASTER; then
     wget http://aainternalstore.blob.core.windows.net/batchstorage/OpenFOAM_CentOS7_HPC_libs.tgz
     tar zxf OpenFOAM_CentOS7_HPC.tgz
     tar zxf OpenFOAM_CentOS7_HPC_libs.tgz
-    
-    wget $1
-    tar xzf *.tgz
+    pwd
+    wget $1 -O $mnt/share/OpenFOAM/foamModelFiles.tgz
+    pwd
+    tar xzf $mnt/share/OpenFOAM/foamModelFiles.tgz
     
     chmod 777 -R $mnt/share
 
