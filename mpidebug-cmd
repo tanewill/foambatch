@@ -12,8 +12,8 @@ export I_MPI_DYNAMIC_CONNECTION=0
 export LD_LIBRARY_PATH=$FOAM_INST_DIR/intel64_lin:$LD_LIBRARY_PATH
 
 cd $mnt/share/OpenFOAM/foamModelFiles
-wget $1
-source $1 $3 > $mnt/runlog.txt
+wget $1 -O runMe.sh
+source runMe.sh $3 > $mnt/runlog.txt
 
 
 mv $mnt/share/OpenFOAM/TOKEEP/ $mnt/
