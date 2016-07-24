@@ -10,7 +10,7 @@ surfaceFeatureExtract
 blockMesh
 cp system/decomposeParDict.meshing system/decomposeParDict
 decomposePar
-mpirun -np 16 -ppn 8 --host $1 -wdir $2/share/OpenFOAM/foamModelFiles snappyHexMesh -parallel -overwrite
+mpirun -np 8 -wdir $2/share/OpenFOAM/foamModelFiles snappyHexMesh -parallel -overwrite
 reconstructParMesh -noZero -mergeTol 1e-07 -constant
 cp system/decomposeParDict.solving system/decomposeParDict
 rm -rf processor*
