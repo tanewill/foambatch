@@ -9,7 +9,7 @@ surfaceFeatureExtract
 
 blockMesh
 decomposePar
-mpirun -np 32 -ppn 8 --host $1 -wdir $2/share/OpenFOAM/foamModelFiles snappyHexMesh -parallel -overwrite
+mpirun -np 16 -ppn 8 --host $1 -wdir $2/share/OpenFOAM/foamModelFiles snappyHexMesh -parallel -overwrite
 
 #- For parallel running
 ls -d processor* | xargs -I {} rm -rf ./{}/0
