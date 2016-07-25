@@ -4,7 +4,7 @@ echo $WM_PROJECT_DIR
 . $WM_PROJECT_DIR/bin/tools/RunFunctions
 
 # copy motorbike surface from resources directory
-#cp $FOAM_TUTORIALS/resources/geometry/motorBike.obj.gz constant/triSurface/
+cp $FOAM_TUTORIALS/resources/geometry/motorBike.obj.gz constant/triSurface/
 surfaceFeatureExtract
 blockMesh
 wget https://raw.githubusercontent.com/tanewill/OpenFOAM_motorBike/master/system/snappyHexMeshDict -O $2/share/OpenFOAM/foamModelFiles/system/snappyHexMeshDict
