@@ -8,6 +8,7 @@ echo $WM_PROJECT_DIR
 surfaceFeatureExtract
 blockMesh
 wget https://raw.githubusercontent.com/tanewill/OpenFOAM_motorBike/master/system/snappyHexMeshDict -O $2/share/OpenFOAM/foamModelFiles/system/snappyHexMeshDict
+wget https://github.com/tanewill/OpenFOAM_motorBike/blob/master/system/surfaceFeatureExtractDict -O $2/share/OpenFOAM/foamModelFiles/system/surfaceFeatureExtractDict
 cp system/decomposeParDict.meshing system/decomposeParDict
 decomposePar
 mpirun -np 8 -wdir $2/share/OpenFOAM/foamModelFiles snappyHexMesh -parallel -overwrite
