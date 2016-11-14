@@ -17,6 +17,9 @@ cp system/decomposeParDict.solving system/decomposeParDict
 rm -rf processor*
 decomposePar
 
+#update speed
+sed "s/flowVelocity         (20 0 0);/flowVelocity         ($3 0 0);/g"
+
 #- For parallel running
 ls -d processor* | xargs -I {} rm -rf ./{}/0
 ls -d processor* | xargs -I {} cp -r 0.org ./{}/0
